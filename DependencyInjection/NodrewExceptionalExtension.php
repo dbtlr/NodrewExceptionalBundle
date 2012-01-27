@@ -40,7 +40,11 @@ class NodrewExceptionalExtension extends Extension
      */
     protected function setConfig($config, $container)
     {
-
+        $container->setParameter('nodrew_exceptional.key', $config['api_key']);
+        
+        if (isset($config['blacklist'])) {
+            $container->setParameter('nodrew_exceptional.blacklist', $config['blacklist']);
+        }
     }
 
     /**

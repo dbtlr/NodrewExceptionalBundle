@@ -20,8 +20,15 @@ class Configuration
     public function getConfigTree()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('nodrew_embedly', 'array');
+        $rootNode = $treeBuilder->root('nodrew_exceptional', 'array');
 
+        $rootNode
+            ->children()
+                ->scalarNode('api_key')->isRequired()->cannotBeEmpty()->end()
+                ->arrayNode('blacklist')
+                    ->useAttributeAsKey('blacklist')->prototype('scalar')->end()
+                ->end()
+            ->end()
         ;
 
         return $treeBuilder->buildTree();

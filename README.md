@@ -10,6 +10,7 @@ For use with the NodrewExceptionalBundle service at: http://www.getexceptional.c
 1. Download NodrewExceptionalBundle
 2. Configure the Autoloader
 3. Enable the Bundle
+4. Add your Exceptional API key
 
 ### Step 1: Download NodrewExceptionalBundle
 
@@ -82,6 +83,15 @@ public function registerBundles()
     );
 }
 ```
+
+### Step 4: Add your Exceptional provider key
+
+``` yaml
+# app/config/config.yml
+nodrew_exceptional:
+    api_key:   [your api key]
+```
+
 
 ## TODO
 
