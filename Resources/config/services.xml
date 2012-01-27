@@ -18,6 +18,7 @@
             <argument>%kernel.environment%</argument>
             <argument type="service" id="service_container" />
         </service>
+        <service id="exceptional" alias="nodrew_exceptional.client" />
 
         <service id="nodrew_exceptional.exception_listener" class="%nodrew_exceptional.exception_listener.class%">
             <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
