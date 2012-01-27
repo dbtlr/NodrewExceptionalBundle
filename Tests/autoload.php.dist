@@ -23,3 +23,6 @@ spl_autoload_register(function($class) {
         return true;
     }
 });
+
+// Include the exceptional library.
+require_once __DIR__.'/../vendor/exceptional-php/exceptional.php';

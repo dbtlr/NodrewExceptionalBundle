@@ -27,6 +27,10 @@ Add the following lines in your `deps` file:
 [NodrewExceptionalBundle]
     git=http://github.com/nodrew/NodrewExceptionalBundle.git
     target=/bundles/Nodrew/Bundle/ExceptionalBundle
+
+[exceptional-php]   
+    git=https://github.com/ankane/exceptional-php.git
+    target=/exceptional-php
 ```
 
 Now, run the vendors script to download the bundle:
@@ -41,6 +45,7 @@ If you prefer instead to use git submodules, then run the following:
 
 ``` bash
 $ git submodule add http://github.com/nodrew/NodrewExceptionalBundle.git vendor/bundles/Nodrew/Bundle/ExceptionalBundle
+$ git submodule add http://github.com/ankane/exceptional-php.git vendor/exceptional-php
 $ git submodule update --init
 ```
 
@@ -55,6 +60,10 @@ $loader->registerNamespaces(array(
     // ...
     'Nodrew'   => __DIR__.'/../vendor/bundles',
 ));
+
+
+// Include the exceptional library.
+require_once __DIR__.'/../vendor/exceptional-php/exceptional.php';
 ```
 
 ### Step 3: Enable the bundle

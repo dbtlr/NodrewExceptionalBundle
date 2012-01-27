@@ -10,6 +10,7 @@ if (isset($argv[1])) {
 $vendorDir = __DIR__;
 $deps = array(
     array('symfony', 'http://github.com/symfony/symfony', isset($_SERVER['SYMFONY_VERSION']) ? $_SERVER['SYMFONY_VERSION'] : 'origin/master'),
+    array('exceptional-php', 'https://github.com/ankane/exceptional-php', 'origin/master'),
 );
 
 foreach ($deps as $dep) {
