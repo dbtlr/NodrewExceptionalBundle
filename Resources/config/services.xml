@@ -7,7 +7,21 @@
     <parameters>
         <parameter key="nodrew_exceptional.api_key"></parameter>
         <parameter key="nodrew_exceptional.blacklist"></parameter>
+        <parameter key="nodrew_exceptional.client.class">Nodrew\Bundle\ExceptionalBundle\Exceptional\Client</parameter>
+        <parameter key="nodrew_exceptional.exception_listener.class">Nodrew\Bundle\ExceptionalBundle\EventListener\ExceptionListener</parameter>
     </parameters>
 
+    <services>
+        <service id="nodrew_exceptional.client" class="%nodrew_exceptional.client.class%">
+            <argument>%nodrew_exceptional.api_key%</argument>
+            <argument>%nodrew_exceptional.blacklist%</argument>
+            <argument>%kernel.environment%</argument>
+            <argument type="service" id="service_container" />
+        </service>
 
+        <service id="nodrew_exceptional.exception_listener" class="%nodrew_exceptional.exception_listener.class%">
+            <tag name="kernel.event_listener" event="kernel.exception" method="onKernelException" />
+            <argument type="service" id="nodrew_exceptional.client" />
+        </service>
+    </services>
 </container>
