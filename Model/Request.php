@@ -7,6 +7,14 @@ use Symfony\Component\HttpFoundation\Request as HttpRequest,
     Symfony\Component\HttpKernel\Kernel,
     Nodrew\Bundle\ExceptionalBundle\Exceptional\Client;
 
+/**
+ * Service request class.
+ *
+ * @package		ExceptionalBundle
+ * @author		Drew Butler <hi@nodrew.com>
+ * @copyright	(c) 2012 Drew Butler
+ * @license		http://www.opensource.org/licenses/mit-license.php
+ */
 class Request
 {
     protected $config;

@@ -5,6 +5,14 @@ namespace Nodrew\Bundle\ExceptionalBundle\Model;
 use Symfony\Component\HttpFoundation\Request,
     Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Service configuration class.
+ *
+ * @package		ExceptionalBundle
+ * @author		Drew Butler <hi@nodrew.com>
+ * @copyright	(c) 2012 Drew Butler
+ * @license		http://www.opensource.org/licenses/mit-license.php
+ */
 class Config
 {
     protected $apiKey;

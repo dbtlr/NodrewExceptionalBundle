@@ -10,8 +10,8 @@ use Nodrew\Bundle\ExceptionalBundle\Model\Config,
  * This class assists in the loading of the exceptional-php library.
  *
  * @package		ExceptionalBundle
- * @author		Drew Butler <drew@abstracting.me>
- * @copyright	(c) 2011 Drew Butler
+ * @author		Drew Butler <hi@nodrew.com>
+ * @copyright	(c) 2012 Drew Butler
  * @license		http://www.opensource.org/licenses/mit-license.php
  */
 class Client
@@ -37,6 +37,7 @@ class Client
      */
     public function notifyOnException(\Exception $exception)
     {
+        pre_r('hi!'); exit;
         $request = new Request($exception, $this->config);
 
         $host    = self::HOST;
