@@ -6,22 +6,24 @@
 
     <parameters>
         <parameter key="nodrew_exceptional.api_key"></parameter>
-        <parameter key="nodrew_exceptional.blacklist"></parameter>
+        <parameter key="nodrew_exceptional.blacklist" type="collection"></parameter>
+        <parameter key="nodrew_exceptional.use_ssl"></parameter>
         <parameter key="nodrew_exceptional.client.class">Nodrew\Bundle\ExceptionalBundle\Exceptional\Client</parameter>
-        <parameter key="nodrew_exceptional.data.class">Nodrew\Bundle\ExceptionalBundle\Exceptional\Model\ServiceParameters</parameter>
+        <parameter key="nodrew_exceptional.config.class">Nodrew\Bundle\ExceptionalBundle\Model\Config</parameter>
         <parameter key="nodrew_exceptional.exception_listener.class">Nodrew\Bundle\ExceptionalBundle\EventListener\ExceptionListener</parameter>
     </parameters>
 
     <services>
-        <service id="nodrew_exceptional.data" class="%nodrew_exceptional.data.class%">
+        <service id="nodrew_exceptional.config" class="%nodrew_exceptional.config.class%">
             <argument>%nodrew_exceptional.api_key%</argument>
-            <argument>%nodrew_exceptional.blacklist%</argument>
+            <argument>%nodrew_exceptional.use_ssl%</argument>
             <argument>%kernel.environment%</argument>
+            <argument>%nodrew_exceptional.blacklist%</argument>
             <argument type="service" id="service_container" />
         </service>
 
         <service id="nodrew_exceptional.client" class="%nodrew_exceptional.client.class%">
-            <argument type="service" id="nodrew_exceptional.data" />
+            <argument type="service" id="nodrew_exceptional.config" />
         </service>
         <service id="exceptional" alias="nodrew_exceptional.client" />
 

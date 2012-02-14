@@ -40,10 +40,14 @@ class NodrewExceptionalExtension extends Extension
      */
     protected function setConfig($config, $container)
     {
-        $container->setParameter('nodrew_exceptional.key', $config['api_key']);
+        $container->setParameter('nodrew_exceptional.api_key', $config['api_key']);
         
         if (isset($config['blacklist'])) {
             $container->setParameter('nodrew_exceptional.blacklist', $config['blacklist']);
+        }
+
+        if (isset($config['use_ssl'])) {
+            $container->setParameter('nodrew_exceptional.use_ssl', $config['use_ssl']);
         }
     }
 
