@@ -5,6 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <parameter key="nodrew_exceptional.context_id"></parameter>
         <parameter key="nodrew_exceptional.api_key"></parameter>
         <parameter key="nodrew_exceptional.blacklist" type="collection"></parameter>
         <parameter key="nodrew_exceptional.use_ssl"></parameter>
@@ -19,6 +20,7 @@
             <argument>%nodrew_exceptional.use_ssl%</argument>
             <argument>%kernel.environment%</argument>
             <argument>%nodrew_exceptional.blacklist%</argument>
+            <argument>%nodrew_exceptional.context_id%</argument>
             <argument type="service" id="service_container" />
         </service>
 

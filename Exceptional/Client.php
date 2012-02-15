@@ -19,7 +19,7 @@ class Client
     const HOST             = 'plugin.getexceptional.com';
     const PROTOCOL_VERSION = '6';
     const URL              = '/api/errors?api_key=%s&protocol_version=%s&hash=%s';
-    const VERSION          = '0.6';
+    const VERSION          = '0.9';
     const CLIENT_NAME      = 'NodrewExceptionalBundle';
 
     protected $config;
@@ -54,7 +54,7 @@ class Client
         if (!$sock = fsockopen($host, $port, $errno, $errstr, $timeout)) {
             return;
         }
-        
+
         fwrite($sock, $request->outputHeaders());
 
         $response = "";

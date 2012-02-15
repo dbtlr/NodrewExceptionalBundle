@@ -25,6 +25,7 @@ class Configuration
         $rootNode
             ->children()
                 ->scalarNode('api_key')->isRequired()->cannotBeEmpty()->end()
+                ->scalarNode('context_id')->end()
                 ->booleanNode('use_ssl')->end()
                 ->arrayNode('blacklist')
                     ->useAttributeAsKey('blacklist')->prototype('scalar')->end()

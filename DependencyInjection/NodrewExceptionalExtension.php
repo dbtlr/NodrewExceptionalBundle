@@ -49,6 +49,10 @@ class NodrewExceptionalExtension extends Extension
         if (isset($config['use_ssl'])) {
             $container->setParameter('nodrew_exceptional.use_ssl', $config['use_ssl']);
         }
+        
+        if (isset($config['context_id'])) {
+            $container->setParameter('nodrew_exceptional.context_id', $config['context_id']);
+        }
     }
 
     /**

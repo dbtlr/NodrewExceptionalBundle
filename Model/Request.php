@@ -261,7 +261,19 @@ class Request
      */
     public function getContext()
     {
-        return array('context' => array());
+        if (!$context = $this->config->getContext()) {
+            return;
+        }
+
+        if (!$context = $context->getContext()) {
+            return;
+        }
+
+        if (!is_array($context)) {
+            return;
+        }
+
+        return array('context' => $context);
     }
 
 }

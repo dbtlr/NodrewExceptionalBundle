@@ -4,12 +4,13 @@ namespace Nodrew\Bundle\ExceptionalBundle\Tests\Model;
 
 use Nodrew\Bundle\ExceptionalBundle\Model\Request,
     Nodrew\Bundle\ExceptionalBundle\Model\Config,
+    Nodrew\Bundle\ExceptionalBundle\Handler\ContextHandlerInterface,
     Symfony\Component\HttpFoundation\Request as HttpRequest,
     Symfony\Component\DependencyInjection\Container;
 
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
-    protected function getConfig()
+    protected function getConfig($contextId = null, $context = null)
     {
         $request   = HttpRequest::create('/test');
         $request->headers->replace(array('test' => 'yeah!'));
@@ -17,8 +18,12 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $container = new Container();
         $container->set('request', $request);
         $container->setParameter('kernel.root_dir', __DIR__);
+        
+        if ($contextId) {
+            $container->set($contextId, $context);
+        }
 
-        return new Config('asdf', false, 'test', array(), $container);
+        return new Config('asdf', false, 'test', array(), $contextId, $container);
     }
 
     public function testModelInstatiatesProperly()
@@ -66,13 +71,34 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedKeys, array_keys($return));
     }
 
-    public function testModelReturnsContextProperly()
+    public function testModelReturnsContextAsEmptyWhenNoContextClassDefined()
     {
         $request = new Request(new \Exception('testing'), $this->getConfig());
 
-        $return = $request->getContext();
-        $expectedKeys = array('context');
-
-        $this->assertEquals($expectedKeys, array_keys($return));
+        $this->assertNull($request->getContext());
     }
+
+    public function testWillUseContextIfDefined()
+    {
+        $context = new ContextTestClass;
+        $context->context = array('test' => 'works');
+        $request = new Request(new \Exception('testing'), $this->getConfig('context.id', $context));
+        
+        $this->assertEquals(array('context' => array('test' => 'works')), $request->getContext());
+    }
+
+    public function testWillSkipContextIfNonArrayReturned()
+    {
+        $context = new ContextTestClass;
+        $context->context = 'not an array';
+        $request = new Request(new \Exception('testing'), $this->getConfig('context.id', $context));
+        
+        $this->assertNull($request->getContext());
+    }
+}
+
+class ContextTestClass implements ContextHandlerInterface
+{
+    public $context;
+    public function getContext() { return $this->context; }
 }

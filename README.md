@@ -87,15 +87,125 @@ nodrew_exceptional:
 
 These options may be added to the configuration. 
 
-The blacklist is the most important feature here, as it allows you to selectively scrub parameters from your GET and POST service requests.
-
 ``` yaml
 // app/config/config.yml
 nodrew_exceptional:
     use_ssl:  false
+    context_id: ~
     blacklist:
         - password
         - ssn
+```
+
+### use_ssl
+
+type: boolean
+
+This command is used to turn on SSL processing. It is off by default, due to many systems not having the proper openssl libraries installed. However, if you do have it available and you are at all concerned that there may be sensitive data in these transmissions, I highly suggest enabling this.
+
+### blacklist
+
+type: array
+
+This is perhaps the single most important piece for your user's security. This will allow you to add parameters that will be filtered out of the GET and POST data sent to Exceptional. Great for making sure password, ssn and credit card numbers don't end up in plain text, in your error logs for all of eternity. Please, for all of our sakes, use this.
+
+Example: 
+
+``` yaml
+// app/config/config.yml
+nodrew_exceptional:
+    blacklist:
+        - password
+        - ssn
+        - credit_card_number
+```
+In this case, the following will be transformed:
+
+Original:
+
+``` json
+{'password':'secret', 'password2':'secret', 'ssn':'111-111-1111', 'credit_card_number': '1111111111111111', 'name':'joe', 'zip':'10001'} 
+```
+
+Will get turned into this:
+
+``` json
+{'password':'[PROTECTED]', 'password2':'[PROTECTED]', 'ssn':'[PROTECTED]', 'credit_card_number': '[PROTECTED]', 'name':'joe', 'zip':'10001'} 
+```
+
+If you notice, the field password2 was also matched, since it has the word password in it. This is true for all of these. Any keys that even contain the filtered key, will be filtered. 
+
+### context_id
+
+This is perhaps the most useful feature. Exceptional provides for a means of adding extra, contextual data to the error log. In this case, it we are doing so through a service handler, which will allow you the flexibility of loading your own data into any response that is generated. To do this, let's create a simple hander for adding the Symfony2 username and userId for logged in users.
+
+#### Step 1: Create your context handler class.
+
+``` php
+<?php
+// src/Acme/DemoBundle/Handler/ExceptionalContextHandler.php
+
+namespace Acme\DemoBundle\Handler;
+
+use Nodrew\Bundle\ExceptionalBundle\Handler\ContextHandlerInterface,
+    Symfony\Component\Security\Core\SecurityContext;
+
+class ExceptionalContextHandler implements ContextHandlerInterface
+{
+    protected $securityContext;
+    
+    /**
+     * @param Symfony\Component\Security\Core\SecurityContext $securityContext
+     */
+    public function __construct(SecurityContext $securityContext)
+    {
+        $this->securityContext = $securityContext;
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getContext()
+    {
+        $context = array();
+        $token   = $this->securityContext->getToken();
+
+        if ($token->isAuthenticated()) {
+            $context['userId']   = $token->getUser()->getId();
+            $context['username'] = $token->getUser()->getUsername();
+        }
+
+        return $context;
+    }
+}
+```
+#### Step 2: Create your service id
+
+``` xml
+// src/Acme/DemoBundle/Resources/config/services.xml
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="acme.exceptional.context.handler.class">Acme\DemoBundle\Handler\ExceptionalContextHandler</parameter>
+    </parameters>
+
+    <services>
+        <service id="acme.exceptional.context.handler" class="%acme.exceptional.context.handler.class%">
+            <argument type="service" id="security.context" />
+        </service>
+    </services>
+</container>
+```
+#### Step 3: Add your context id to the config
+
+``` yaml
+// app/config/config.yml
+nodrew_exceptional:
+    context_id: acme.exceptional.context.handler
 ```
 
 ## TODO
