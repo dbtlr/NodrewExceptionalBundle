@@ -37,7 +37,6 @@ class Client
      */
     public function notifyOnException(\Exception $exception)
     {
-        pre_r('hi!'); exit;
         $request = new Request($exception, $this->config);
 
         $host    = self::HOST;
