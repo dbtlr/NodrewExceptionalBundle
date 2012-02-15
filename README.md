@@ -208,6 +208,9 @@ nodrew_exceptional:
     context_id: acme.exceptional.context.handler
 ```
 
+And that's it. Now you should see the username and userId added to the params in exceptional, if a user is logged in. If they are not, then it will be blank. You can of course add your own parameters to that array. Just be sure that it returns an array. If it returns anything else, then it will be skipped.
+
+
 ## TODO
 
 - More tests

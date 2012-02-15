@@ -10,10 +10,11 @@ use Nodrew\Bundle\ExceptionalBundle\Model\Request,
 
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
-    protected function getConfig($contextId = null, $context = null)
+    protected function getConfig($contextId = null, $context = null, $blacklist = array())
     {
         $request   = HttpRequest::create('/test');
         $request->headers->replace(array('test' => 'yeah!'));
+        $request->request->replace(array('password' => 'password', 'password2' => 'password2', 'name' => 'John Doe'));
 
         $container = new Container();
         $container->set('request', $request);
@@ -23,7 +24,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             $container->set($contextId, $context);
         }
 
-        return new Config('asdf', false, 'test', array(), $contextId, $container);
+        return new Config('asdf', false, 'test', $blacklist, $contextId, $container);
     }
 
     public function testModelInstatiatesProperly()
@@ -94,6 +95,24 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $request = new Request(new \Exception('testing'), $this->getConfig('context.id', $context));
         
         $this->assertNull($request->getContext());
+    }
+    
+    public function testWillFilterOutParametersBasedOnBlackList()
+    {
+        $request = new Request(new \Exception('testing'), $this->getConfig(null, null, array('name')));
+        
+        $return = $request->getRequest();
+        
+        $this->assertSame(array('password' => 'password', 'password2' => 'password2', 'name' => '[PROTECTED]'), $return['parameters']);
+    }
+    
+    public function testWillFilterOutParametersBasedOnBlackListAndWillMatchBasedOnPartialWords()
+    {
+        $request = new Request(new \Exception('testing'), $this->getConfig(null, null, array('password')));
+        
+        $return = $request->getRequest();
+        
+        $this->assertSame(array('password' => '[PROTECTED]', 'password2' => '[PROTECTED]', 'name' => 'John Doe'), $return['parameters']);
     }
 }
 

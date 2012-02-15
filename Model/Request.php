@@ -151,8 +151,8 @@ class Request
     public function filter($parameters, $term)
     {
         foreach ($parameters as $key => $value) {
-            if (preg_match('/$term/i', $key)) {
-                $parameters[$key] = '[FILTERED]';
+            if (preg_match('/'.$term.'/i', $key)) {
+                $parameters[$key] = '[PROTECTED]';
 
             } elseif (is_array($value)) {
                 $parameters[$key] = $this->filter($value, $term);
