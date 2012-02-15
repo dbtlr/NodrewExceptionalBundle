@@ -54,7 +54,7 @@ class Client
         if (!$sock = fsockopen($host, $port, $errno, $errstr, $timeout)) {
             return;
         }
-
+        
         fwrite($sock, $request->outputHeaders());
 
         $response = "";

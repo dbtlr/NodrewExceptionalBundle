@@ -215,11 +215,16 @@ class Request
 
         array_unshift($backtrace, $this->exception->getFile().':'.$this->exception->getLine());
 
+        $exceptionClass = get_class($this->exception);
+        // if ($exceptionClass == 'Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException') {
+        //     $exceptionClass = 'Http404Error';
+        // }
+
         return array(
             'occurred_at'     => date('c'),
             'message'         => $this->exception->getMessage(),
             'backtrace'       => $backtrace,
-            'exception_class' => get_class($this->exception),
+            'exception_class' => $exceptionClass,
         );
     }
 
