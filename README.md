@@ -3,7 +3,7 @@ Exceptional Bundle for Symfony2 [![Travis-CI Build Status](https://secure.travis
 
 
 
-For use with the NodrewExceptionalBundle service at: http://www.getexceptional.com
+For use with the Exceptional service at: http://www.getexceptional.com
 
 ## Installation Instructions
 
