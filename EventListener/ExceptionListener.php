@@ -41,9 +41,7 @@ class ExceptionListener
         $exception = $event->getException();
         
         if ($exception instanceof HttpException) {
-            if ($exception->getStatusCode() != 404) {
-                return;
-            }
+            return;
         }
         
         $this->client->notifyOnException($exception);
