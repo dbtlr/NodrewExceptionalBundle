@@ -56,12 +56,12 @@ class ExceptionListenerTest extends \PHPUnit_Framework_TestCase
         $listener->onKernelException($event);
     }
     
-    public function testWillNotSkipHttpExceptionIf404()
+    public function testWillSkipHttpExceptionIf404()
     {
         $client = $this->getClient();
         
         $client
-            ->expects($this->once())
+            ->expects($this->never())
             ->method('notifyOnException');
             
         $event = $this->getMockBuilder('Symfony\\Component\\HttpKernel\\Event\\GetResponseForExceptionEvent')
