@@ -170,7 +170,7 @@ class ExceptionalContextHandler implements ContextHandlerInterface
         $context = array();
         $token   = $this->securityContext->getToken();
 
-        if ($token->isAuthenticated()) {
+        if ($token && $token->isAuthenticated()) {
             $context['userId']   = $token->getUser()->getId();
             $context['username'] = $token->getUser()->getUsername();
         }
