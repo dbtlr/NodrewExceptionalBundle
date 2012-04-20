@@ -213,4 +213,4 @@ And that's it. Now you should see the username and userId added to the params in
 
 ## TODO
 
-- Add 404 Handling, so they are parsed and added to the 404 list inside of Exceptional's backend.
+- Add 404 Handling, so they are parsed and added to the 404 list inside of Exceptional's backend. 
