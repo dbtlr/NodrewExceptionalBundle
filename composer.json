@@ -1,0 +1,29 @@
+{
+    "name": "nodrew/exceptional-bundle",
+    "description": "Symfony2 Bundle for working with the Exceptional Service",
+    "keywords": [
+        "exceptional",
+        "api"
+    ],
+    "homepage": "https://github.com/nodrew/NodrewExceptionalBundle",
+    "type": "symfony-bundle",
+    "authors": [
+        {
+            "name": "Drew Butler",
+            "homepage": "http://nodrew.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://github.com/nodrew/NodrewExceptionalBundle/contributors"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle": "2.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Nodrew\\Bundle\\ExceptionalBundle": ""
+        }
+    },
+    "target-dir": "Nodrew/Bundle/ExceptionalBundle"
+}
