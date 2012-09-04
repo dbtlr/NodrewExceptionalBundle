@@ -234,7 +234,7 @@ class Request
      */
     public function getHash()
     {
-        return sha1(json_encode($this->exception->getTrace()));
+        return sha1(serialize($this->exception->getTrace()));
     }
 
     /**
